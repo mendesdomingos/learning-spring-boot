@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.School.Model.School;
+import com.example.demo.School.queryHandlers.GetAllSchoolsQueryHandler;
 
 @RestController
 @RequestMapping("/schools")
@@ -23,9 +24,12 @@ public class SchoolController {
     @Autowired
     private SchoolRepository schoolRepository;
 
+    @Autowired
+    private GetAllSchoolsQueryHandler getAllSchoolsQueryHandler;
+
     @GetMapping
     public ResponseEntity<List<School>> getSchools() {
-        return ResponseEntity.ok(schoolRepository.findAll());
+        return getAllSchoolsQueryHandler.execute(null);
     }
 
     @GetMapping("/{id}")
