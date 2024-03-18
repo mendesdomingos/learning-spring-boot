@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.School.Model.School;
 import com.example.demo.School.queryHandlers.GetAllSchoolsQueryHandler;
+import com.example.demo.School.queryHandlers.GetSchoolQueryHandler;
 
 @RestController
 @RequestMapping("/schools")
@@ -27,14 +28,17 @@ public class SchoolController {
     @Autowired
     private GetAllSchoolsQueryHandler getAllSchoolsQueryHandler;
 
+    @Autowired
+    private GetSchoolQueryHandler getSchoolQueryHandler;
+
     @GetMapping
     public ResponseEntity<List<School>> getSchools() {
         return getAllSchoolsQueryHandler.execute(null);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<School>> getSchool(@PathVariable Integer id) {
-        return ResponseEntity.ok(schoolRepository.findById(id));
+    public ResponseEntity<School> getSchool(@PathVariable Integer id) {
+        return getSchoolQueryHandler.execute(id);
     }
 
     @PostMapping
