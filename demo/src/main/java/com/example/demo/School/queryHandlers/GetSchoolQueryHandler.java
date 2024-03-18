@@ -20,7 +20,7 @@ public class GetSchoolQueryHandler implements Query<Integer, School> {
     public ResponseEntity<School> execute(Integer id) {
         Optional<School> school = schoolRepository.findById(id);
         if(school.isEmpty()) {
-           throw new RuntimeException("Product not found!");
+           throw new RuntimeException("School not found!");
         }
         return ResponseEntity.ok(school.get());
     }
