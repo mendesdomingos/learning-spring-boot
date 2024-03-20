@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.School.CommandHandlers.CreateSchoolCommand;
 import com.example.demo.School.Model.School;
 import com.example.demo.School.queryHandlers.GetAllSchoolsQueryHandler;
 import com.example.demo.School.queryHandlers.GetSchoolQueryHandler;
@@ -31,6 +32,9 @@ public class SchoolController {
     @Autowired
     private GetSchoolQueryHandler getSchoolQueryHandler;
 
+    @Autowired
+    private CreateSchoolCommand createSchoolCommand;
+
     @GetMapping
     public ResponseEntity<List<School>> getSchools() {
         return getAllSchoolsQueryHandler.execute(null);
@@ -43,8 +47,7 @@ public class SchoolController {
 
     @PostMapping
     public ResponseEntity createSchool(@RequestBody School school) {
-        schoolRepository.save(school);
-        return ResponseEntity.ok().build();
+        return createSchoolCommand.execute(school);
     }
 
     @PutMapping("/{id}")
