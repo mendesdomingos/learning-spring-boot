@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.School.CommandHandlers.CreateSchoolCommand;
+import com.example.demo.School.CommandHandlers.UpdateCommandHandler;
 import com.example.demo.School.Model.School;
+import com.example.demo.School.Model.UpdateSchoolCommand;
 import com.example.demo.School.queryHandlers.GetAllSchoolsQueryHandler;
 import com.example.demo.School.queryHandlers.GetSchoolQueryHandler;
 
@@ -35,6 +37,9 @@ public class SchoolController {
     @Autowired
     private CreateSchoolCommand createSchoolCommand;
 
+    @Autowired
+    private UpdateCommandHandler updateCommandHandler;
+
     @GetMapping
     public ResponseEntity<List<School>> getSchools() {
         return getAllSchoolsQueryHandler.execute(null);
@@ -52,9 +57,8 @@ public class SchoolController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateSchool(@PathVariable Integer id, @RequestBody School school) {
-        school.setId(id);
-        schoolRepository.save(school);
-        return ResponseEntity.ok().build();
+        UpdateSchoolCommand command = new UpdateSchoolCommand(id, school);
+        return updateCommandHandler.execute(command);
     }
 
     @DeleteMapping("/{id}")
